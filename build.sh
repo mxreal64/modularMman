@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# Clean only output binaries, keeping your precious gcm.cache intact
-rm -f *.o *.out
-
-# Trigger your dynamic standard library module caching trick if missing
 if [ ! -d "gcm.cache" ]; then
     echo "Building standard library module cache..."
     GCC_VERSION=$(g++ -dumpversion)
@@ -21,10 +17,6 @@ fi
 
 echo "[Pipeline] Standard library module cache verified."
 
-# Step 1: Compile your mman module interface using the pre-built gcm.cache
 g++ -std=c++26 -fmodules-ts -O3 -c modularMman.cppm -o modularMman.o
 
-# Step 2: Compile the test harness using your fast module interface linkage
-g++ -std=c++26 -fmodules-ts -O3 main.cpp modularMman.o -o test_mman.out
-
-echo "Build optimized! Execute with: ./test_mman.out"
+echo "done, now go code"
